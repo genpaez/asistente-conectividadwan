@@ -252,11 +252,9 @@ function ajax_pruebasmpls() {     // boton pruebas mpls
 function ajax_pruebasrouter() {     // boton pruebas router
 	
 	var vias = {}
-	vias["pe"] = $("#pe").val();
-	vias["ipwanpe"] = $("#ipwanpe").val();
-	vias["ipwanrouter"] = $("#ipwanrouter").val();
-	vias["puertope"] = $("#puertope").val();
-	vias["enrutamiento"] = $("#enrutamiento").val();
+	
+	vias["loopback"] = $('#loopback').text();
+	vias["enrutamiento"] = $('#enrutamiento').text();
 
     $.ajax({
     	type: "POST",
@@ -268,17 +266,19 @@ function ajax_pruebasrouter() {     // boton pruebas router
         timeout: 600000,
         beforeSend: function() {
             $("#loadrouter").show();
-            $("#clipboardrouter").show();
+
         },
         success: function() {
             $("#loadrouter").hide();
-      //      $("#clipboardrouter").show();
+            $("#clipboardrouter").show();
+            
         },
     		}).then(function(data) {
     			
 				$('#router_response').html('');
     			$.each(data, function(i, optionHtml){	
-      	            $('#router_response').append(optionHtml.i);  // Recorre array e inserta opciones
+
+      	          $('#router_response').append(optionHtml);  // Recorre array e inserta opciones
       	           });
     			$('#boton-pruebasrouter').removeAttr('disabled'); 
     			$('#boton-pruebasrouter').css('cursor','pointer');

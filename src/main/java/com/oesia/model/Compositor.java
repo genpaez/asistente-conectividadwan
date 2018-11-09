@@ -88,5 +88,34 @@ public class Compositor {
 
 		return comandos; // retorna comandos para pe 
 	}
+
+
+
+	public List<String> comandosRouter(String enrutamiento) {
+		
+		String routing = null;
+		if(enrutamiento.equals("BGP")) {routing = "show bgp summary | exclude BGP";}
+		if(enrutamiento.equals("OSPF")) {routing = "show ip route ospf";}
+		if(enrutamiento.equals("Estatico")) {routing = "show ip route static";}
+		
+		String uptime = "sh version | include uptime"; 
+		String restartCause = "sh ver | include System re";
+		String intTraffic = "sh int sum | exclude :";
+		String intBrief = "show ip int brief";
+		
+
+		
+		comandos.add(uptime);
+		comandos.add("\n \n \n \n");
+		comandos.add(restartCause);
+		comandos.add("\n \n \n \n");
+		comandos.add(routing);
+		comandos.add("\n \n \n \n");
+		comandos.add(intTraffic);
+		comandos.add("\n \n \n \n");
+		comandos.add(intBrief);
+		
+		return comandos;
+	}
 	
 }

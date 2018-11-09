@@ -44,13 +44,13 @@ public class PortFR {  // conexión mpls y ejecución.
 	        config.put("StrictHostKeyChecking", "no");
 	        sessionA.setConfig(config);
 	        sessionA.setPassword(passwordA);
-	        forwardedPort = 2222;
+	        forwardedPort = 2222;                //  **** Puerto local ! ****
         	sessionA.setPortForwardingL(forwardedPort, hostB, 22);	// puerto para tunel hacia hostB
-	        sessionA.connect();
+	        sessionA.connect(20000);
 	        sessionA.openChannel("direct-tcpip"); //***************** // Shell/Exc/TCP 
 	        
 	        
-	        if(sessionA.isConnected()) {
+	        if(sessionA.isConnected()) { 
 	        	System.out.println("Connected host A!");
 	        		
 	        }
@@ -72,7 +72,7 @@ public class PortFR {  // conexión mpls y ejecución.
 		        config.put("StrictHostKeyChecking", "no");
 		        sessionB.setConfig(config);
 		        sessionB.setPassword(passwordB);
-				sessionB.connect();
+				sessionB.connect(20000);
 				
 		      if(sessionB.isConnected()) {
 		         System.out.println("Connected host B!"); 
@@ -87,9 +87,9 @@ public class PortFR {  // conexión mpls y ejecución.
 	 
 	 
 	
-	public List<String> Execute(List<String> comandos) throws IOException, JSchException, InterruptedException{
+	public List<String> execute(List<String> comandos) throws IOException, JSchException, InterruptedException{
 		
-		  List<String> respuesta = new ArrayList<String>();;
+		  List<String> respuesta = new ArrayList<String>();
 		  
 		  Channel channel = sessionB.openChannel("shell");
 		  InputStream in = channel.getInputStream();
@@ -98,7 +98,6 @@ public class PortFR {  // conexión mpls y ejecución.
 		  BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(out));
 
 		  
-		 
 		  
 		  channel.connect();
 		  if(channel.isConnected()) { 
@@ -120,7 +119,7 @@ public class PortFR {  // conexión mpls y ejecución.
 							e.printStackTrace();
 						}
 		    	    }
-		    	}, 5000);
+		    	}, 6000);
 			  
 			  /*
 			  String myCommand = ("show service id 500151940 interface 10.20.30.1 \n \n  \n");

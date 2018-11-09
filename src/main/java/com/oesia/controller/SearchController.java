@@ -90,14 +90,11 @@ public class SearchController {
     public List<String> pruebasMpls(@RequestBody Canal canal) throws IOException, JSchException, InterruptedException{
     	
     	PortFR man = new PortFR(canal.getIp_pe());
-    //	Compositor myComposer = new Compositor(); 
-    //	Executor myExecutor = new Executor(canal.getIp_pe()); // Para portforwarding  
-        Compositor myComposer = new Compositor(); 
+        Compositor myComposer = new Compositor();  
         man.conectar();
 
     	List<String> comandos = myComposer.crearComandos(canal.getNombre_pe(), canal.getVprn(), canal.getIpwan_pe(), canal.getIpwan_router(), canal.getPuerto_pe(), canal.getEnrutamiento());
-    	List<String> respuestape = man.Execute(comandos);
-    	
+    	List<String> respuestape = man.execute(comandos);	
     	man.close();
     	return respuestape;
     }
@@ -105,16 +102,13 @@ public class SearchController {
     @PostMapping("/api/pruebasrouter")
     public List<String> pruebasRouter(@RequestBody Canal canal) throws IOException, JSchException, InterruptedException{
     	
-    	PortRadius man = new PortRadius();
-    //	Compositor myComposer = new Compositor(); 
-    //	Executor myExecutor = new Executor(canal.getIp_pe()); // Para portforwarding  
-        Compositor myComposer = new Compositor(); 
-        man.conectar();
-
-    	List<String> comandos = myComposer.crearComandos(canal.getNombre_pe(), canal.getVprn(), canal.getIpwan_pe(), canal.getIpwan_router(), canal.getPuerto_pe(), canal.getEnrutamiento());
-    	List<String> respuestape = man.Execute(comandos);
+    	PortRadius man = new PortRadius(canal.getLoopback()); 
+    	Compositor myComposer = new Compositor(); 
+    	man.conectar();
     	
+    	List<String> comandos = myComposer.comandosRouter(canal.getEnrutamiento());
+        List<String> respuestarouter = man.execute(comandos);
     	man.close();
-    	return respuestape;
+    	return respuestarouter; 
     }
 }
